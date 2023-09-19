@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import TodoList from './components/TodoList';
+import { ThemeContainer, TodoAppContainer } from './ThemeStyles';
+import { TodoProvider, useTodoContext } from './context/TodoContext'; // Make sure the correct import path is used
+import { ThemeProvider } from 'styled-components';
+import { dark, light } from './components/themes';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TodoProvider>
+      <AppContent />
+    </TodoProvider>
   );
-}
+};
+
+const AppContent: React.FC = () => {
+  const { theme } = useTodoContext();
+
+  return (
+    <ThemeProvider theme={theme === 'light' ? light : dark}>
+      <ThemeContainer>
+        <TodoAppContainer>
+          <TodoList />
+        </TodoAppContainer>
+      </ThemeContainer>
+    </ThemeProvider>
+  );
+};
 
 export default App;
